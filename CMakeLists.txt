@@ -3,7 +3,14 @@ project(SDLTest)
 
 set(PROJECT_ROOT_DIR ${CMAKE_SOURCE_DIR})
 set(PROJECT_SOURCE_DIR ${PROJECT_ROOT_DIR}/src)
-set(SDLTEST_SRCS ${PROJECT_SOURCE_DIR}/main.cpp)
+set(SDLTEST_SRCS ${PROJECT_SOURCE_DIR}/main.cpp
+                 ${PROJECT_SOURCE_DIR}/player.cpp
+                 ${PROJECT_SOURCE_DIR}/renderer.cpp
+                 ${PROJECT_SOURCE_DIR}/vector.cpp
+                 ${PROJECT_SOURCE_DIR}/state.cpp
+                 ${PROJECT_SOURCE_DIR}/input_handler.cpp
+                 ${PROJECT_SOURCE_DIR}/ray.cpp
+                 ${PROJECT_SOURCE_DIR}/target.cpp)
 
 add_executable(SDLTest ${SDLTEST_SRCS})
 
