@@ -1,6 +1,7 @@
 #include "ray.hpp"
 
 Ray::Ray() {
+  hit = false;
 }
 
 Ray::Ray(float _x, float _y, float _z,
@@ -11,6 +12,7 @@ Ray::Ray(float _x, float _y, float _z,
   direction.x = _xdir;
   direction.y = _ydir;
   direction.z = _zdir;
+  hit = false;
 }
 
 

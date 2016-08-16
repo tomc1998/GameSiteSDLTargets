@@ -9,7 +9,7 @@ public:
   Target();
   Target(float _x, float _y, float _z, float rad);
   void update(State* state);
-  Plane getPlane(); // Gets the plane that the target lies on
+  Plane* getPlane(); // Gets the plane that the target lies on
   Vector3f pos;
   Vector3f nor;
   Vector3f vel;

@@ -70,16 +70,22 @@ void handleInput(State& state) {
     else if (e.type == SDL_MOUSEBUTTONDOWN) {
       Player* p = state.player;
       Ray* r = new Ray(p->pos.x, p->pos.y, p->pos.z,
-                      -sin(-M_PI/180.f*p->rotX),
-                      -sin(-M_PI/180.f*p->rotY),
+                      sin(M_PI/180.f*p->rotX),
+                      sin(M_PI/180.f*p->rotY),
                       -cos(-M_PI/180.f*p->rotX));
       std::vector<Vector3f*> intersections = checkRayToTargets(r, state.targets);
       for (unsigned ii = 0; ii < intersections.size(); ++ii) {
         Vector3f* v = intersections[ii];
         if (v == NULL) { continue; }
-        std::cout << "Intersection: " << v->x << ", " << v->y << ", " << v->z << std::endl;
+
+        delete v;
       }
+
+      #ifdef DRAW_RAYS
       state.rays.push_back(r);
+      #else
+      delete r;
+      #endif
     }
   }
 }

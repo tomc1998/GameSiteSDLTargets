@@ -9,7 +9,12 @@
 #include "target.hpp"
 
 void drawRay(Ray* ray) {
-  glColor4f(0, 1, 1, 1);
+  if (ray->hit) {
+    glColor4f(1, 1, 0, 1);
+  }
+  else {
+    glColor4f(0, 1, 1, 1);
+  }
   glVertex3f(ray->origin.x, ray->origin.y, ray->origin.z);
   glVertex3f(ray->origin.x + ray->direction.x*10000.f,
              ray->origin.y + ray->direction.y*10000.f,
@@ -44,7 +49,7 @@ void initRenderer(State& state) {
   glMatrixMode(GL_PROJECTION);
   glLoadIdentity();
   float aspectRatio = (float) state.SCREEN_WIDTH / (float) state.SCREEN_HEIGHT;
-  glFrustum(-aspectRatio, aspectRatio, 1, -1, 1, 100);
+  glFrustum(-aspectRatio, aspectRatio, 1, -1, 2, 100);
   glMatrixMode(GL_MODELVIEW);
   glLoadIdentity();
   
@@ -59,12 +64,14 @@ void destroyRenderer(State& state) {
   SDL_GL_DeleteContext(state.glContext);
 }
 
+//#define DRAW_RAYS
 void render(State& state) {
   glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
   glViewport(0, 0, state.SCREEN_WIDTH, state.SCREEN_HEIGHT);
-  glLoadIdentity();
 
+  glPushMatrix();
+  glLoadIdentity();
   glRotatef(-state.player->rotY, 1, 0, 0);
   glRotatef(state.player->rotX, 0, 1, 0);
   glTranslatef(-state.player->pos.x, -state.player->pos.y, -state.player->pos.z);
@@ -75,10 +82,33 @@ void render(State& state) {
     drawTarget(t->pos.x, t->pos.y, t->pos.z, t->rad, 100);
   }
 
+  #ifdef DRAW_RAYS
   glBegin(GL_LINES);
   for (unsigned ii = 0; ii < state.rays.size(); ++ii) {
     Ray* r = state.rays[ii];
     drawRay(r);
   }
   glEnd();
+  #endif
+
+  glPopMatrix();
+  
+  // GUI
+  glPushMatrix();
+  glLoadIdentity();
+
+  // Crosshair
+  glBegin(GL_LINES);
+  glColor3f(0, 1, 0);
+  glVertex3f(-0.075f, 0, -5);
+  glVertex3f(-0.04f, 0, -5);
+  glVertex3f(0.07f, 0, -5);
+  glVertex3f(0.03f, 0, -5);
+  glVertex3f(0, -0.075f, -5);
+  glVertex3f(0, -0.04f, -5);
+  glVertex3f(0, 0.07f, -5);
+  glVertex3f(0, 0.03f, -5);
+  glEnd();
+
+  glPopMatrix();
 }

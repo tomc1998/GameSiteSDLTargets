@@ -9,6 +9,8 @@ public:
   float dot(const Vector3f& vec);
   Vector3f add(const Vector3f& vec) const;
   Vector3f sub(const Vector3f& vec) const;
+  Vector3f cross(const Vector3f& vec) const;
+  int isZero() const;
 };
 
 #endif

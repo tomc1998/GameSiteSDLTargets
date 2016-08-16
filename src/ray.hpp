@@ -10,6 +10,7 @@ public:
 
   Vector3f origin;
   Vector3f direction;
+  int hit;
 };
 
 #endif

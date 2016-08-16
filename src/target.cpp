@@ -3,8 +3,8 @@
 #include "state.hpp"
 #include "collision.hpp"
 
-Plane Target::getPlane() {
-  return Plane(pos.x, pos.y, pos.z, nor.x, nor.y, nor.z);
+Plane* Target::getPlane() {
+  return new Plane(pos.x, pos.y, pos.z, nor.x, nor.y, nor.z);
 }
 
 void Target::update(State* state) {

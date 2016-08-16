@@ -37,15 +37,9 @@ endif (MSVC)
 
 include_directories(${PROJECT_ROOT_DIR}/include)
 
-if (MSVC)
-  target_link_libraries(SDLTest ${PROJECT_ROOT_DIR}/lib/SDL2.lib
-                                ${PROJECT_ROOT_DIR}/lib/SDL2main.lib)
-	set (CMAKE_CXX_FLAGS "/MD /EHsc")
-endif (MSVC)
-
 if (CMAKE_COMPILER_IS_GNUCXX)
   link_directories(/usr/local/lib)
 	target_link_libraries(SDLTest SDL2 m dl pthread rt GL)
-	set (CMAKE_CXX_FLAGS "-std=c++11 -Wall")
+	set (CMAKE_CXX_FLAGS "-std=c++11 -Wall -g")
 endif (CMAKE_COMPILER_IS_GNUCXX)
 
