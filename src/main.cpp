@@ -13,7 +13,7 @@ void initState(State& state) {
   state.SCREEN_WIDTH = 800;
   state.SCREEN_HEIGHT = 600;
   state.endflag = 0;
-  state.targets.push_back(new Target(0, 0, 10));
+  state.targets.push_back(new Target(0, 0, 0, 1));
 }
 
 int main() {

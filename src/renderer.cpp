@@ -72,7 +72,7 @@ void render(State& state) {
   for (unsigned ii = 0; ii < state.targets.size(); ++ii) {
     Target* t = state.targets[ii];
     glColor4f(0, 1, 0, 1);
-    drawTarget(t->pos.x, t->pos.y, t->pos.z, 1, 100);
+    drawTarget(t->pos.x, t->pos.y, t->pos.z, t->rad, 100);
   }
 
   glBegin(GL_LINES);

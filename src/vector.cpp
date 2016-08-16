@@ -11,3 +11,17 @@ Vector3f::Vector3f(float _x, float _y, float _z) {
   y = _y;
   z = _z;
 }
+
+float Vector3f::dot(const Vector3f& vec) {
+  return x*vec.x + y*vec.y + z*vec.z;
+}
+
+Vector3f Vector3f::add(const Vector3f& vec) const {
+  return Vector3f(x + vec.x, y + vec.y, z + vec.z);
+}
+
+Vector3f Vector3f::sub(const Vector3f& vec) const {
+  return Vector3f(x - vec.x, y - vec.y, z - vec.z);
+}
+
+

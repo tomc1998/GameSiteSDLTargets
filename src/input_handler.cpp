@@ -3,7 +3,10 @@
 #include "input_handler.hpp"
 #include "state.hpp"
 #include "ray.hpp"
+#include "collision.hpp"
+#include <iostream>
 #include <math.h>
+#include <vector>
 
 int W_DOWN = 0;
 int A_DOWN = 0;
@@ -70,6 +73,12 @@ void handleInput(State& state) {
                       -sin(-M_PI/180.f*p->rotX),
                       -sin(-M_PI/180.f*p->rotY),
                       -cos(-M_PI/180.f*p->rotX));
+      std::vector<Vector3f*> intersections = checkRayToTargets(r, state.targets);
+      for (unsigned ii = 0; ii < intersections.size(); ++ii) {
+        Vector3f* v = intersections[ii];
+        if (v == NULL) { continue; }
+        std::cout << "Intersection: " << v->x << ", " << v->y << ", " << v->z << std::endl;
+      }
       state.rays.push_back(r);
     }
   }
