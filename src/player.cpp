@@ -6,27 +6,28 @@
 
 
 void Player::update(State* state) {
+  static const float speed = 0.05f;
   if (A_DOWN) {
-    pos.x -= 0.1f*cos(M_PI*rotX/180.f);
-    pos.z -= 0.1f*sin(M_PI*rotX/180.f);
+    pos.x -= speed*cos(M_PI*rotX/180.f);
+    pos.z -= speed*sin(M_PI*rotX/180.f);
   }
   if (D_DOWN) {
-    pos.x += 0.1f*cos(M_PI*rotX/180.f);
-    pos.z += 0.1f*sin(M_PI*rotX/180.f);
+    pos.x += speed*cos(M_PI*rotX/180.f);
+    pos.z += speed*sin(M_PI*rotX/180.f);
   }
   if (W_DOWN) {
-    pos.x += 0.1f*sin(M_PI*rotX/180.f);
-    pos.z -= 0.1f*cos(M_PI*rotX/180.f);
+    pos.x += speed*sin(M_PI*rotX/180.f);
+    pos.z -= speed*cos(M_PI*rotX/180.f);
   }
   if (S_DOWN) {
-    pos.x -= 0.1f*sin(M_PI*rotX/180.f);
-    pos.z += 0.1f*cos(M_PI*rotX/180.f);
+    pos.x -= speed*sin(M_PI*rotX/180.f);
+    pos.z += speed*cos(M_PI*rotX/180.f);
   }
   if (Q_DOWN) {
-    pos.y -= 0.1f;
+    pos.y -= speed;
   }
   if (E_DOWN) {
-    pos.y += 0.1f;
+    pos.y += speed;
   }
 }
 

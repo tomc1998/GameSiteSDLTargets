@@ -15,6 +15,9 @@ public:
   Vector3f vel;
   Vector3f acc;
   float rad;
+  float maxRad;
+  int fadingOut;
+  float fadeSpeed;
 private:
   void init(float _x, float _y, float _z,
             float _norX, float _norY, float _norZ, float _rad);

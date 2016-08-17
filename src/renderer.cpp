@@ -37,10 +37,13 @@ void drawTarget(float x, float y, float z, float rad, unsigned iter) {
 static GLuint texCrosshair = 0;
 static GLuint texShadowCentre = 0;
 void initRenderer(State& state) {
+
+  SDL_GL_SetAttribute(SDL_GL_ACCELERATED_VISUAL, 1); 
+
   state.window = SDL_CreateWindow("SDL OpenGL Test",
                             0, 0,
                             state.SCREEN_WIDTH, state.SCREEN_HEIGHT,
-                            SDL_WINDOW_OPENGL|SDL_WINDOW_RESIZABLE);
+                            SDL_WINDOW_OPENGL|SDL_WINDOW_FULLSCREEN_DESKTOP);
 
   // Capture cursor
   SDL_SetRelativeMouseMode(SDL_TRUE);
@@ -52,7 +55,7 @@ void initRenderer(State& state) {
   glMatrixMode(GL_PROJECTION);
   glLoadIdentity();
   float aspectRatio = (float) state.SCREEN_WIDTH / (float) state.SCREEN_HEIGHT;
-  glFrustum(-aspectRatio, aspectRatio, 1, -1, 2, 100);
+  glFrustum(-aspectRatio, aspectRatio, 1, -1, 2, 500);
   glMatrixMode(GL_MODELVIEW);
   glLoadIdentity();
   
@@ -64,73 +67,75 @@ void initRenderer(State& state) {
   glEnable(GL_TEXTURE_2D);
   glEnable(GL_BLEND);
   glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+  
+  glEnable(GL_MULTISAMPLE);  
 
   texCrosshair = loadTex("res/crosshair.png");
   texShadowCentre = loadTex("res/shadow_centre.png");
 }
 
-void drawWalls() {
+void drawWalls(State& state) {
   glBindTexture(GL_TEXTURE_2D, texShadowCentre);
   glBegin(GL_QUADS);
   // floor
   glTexCoord2f(0, 0);
-  glVertex3f(-12, 7, -7);
+  glVertex3f(-state.roomWidth,  state.roomHeight, -7);
   glTexCoord2f(1, 0);
-  glVertex3f( 12, 7, -7);
+  glVertex3f( state.roomWidth,  state.roomHeight, -7);
   glTexCoord2f(1, 1);
-  glVertex3f( 12, 7,  50);
+  glVertex3f( state.roomWidth,  state.roomHeight,  100);
   glTexCoord2f(0, 1);
-  glVertex3f(-12, 7,  50);
+  glVertex3f(-state.roomWidth,  state.roomHeight,  100);
 
   // roof
   glTexCoord2f(0, 0);
-  glVertex3f(-12, -5, -7);
+  glVertex3f(-state.roomWidth, -state.roomHeight, -7);
   glTexCoord2f(1, 0);
-  glVertex3f( 12, -5, -7);
+  glVertex3f( state.roomWidth, -state.roomHeight, -7);
   glTexCoord2f(1, 1);
-  glVertex3f( 12, -5,  50);
+  glVertex3f( state.roomWidth, -state.roomHeight,  100);
   glTexCoord2f(0, 1);
-  glVertex3f(-12, -5,  50);
+  glVertex3f(-state.roomWidth, -state.roomHeight,  100);
 
   // left
   glTexCoord2f(0, 0);
-  glVertex3f(-12, -5, -7);
+  glVertex3f(-state.roomWidth, -state.roomHeight, -7);
   glTexCoord2f(1, 0);
-  glVertex3f(-12,  7, -7);
+  glVertex3f(-state.roomWidth,  state.roomHeight, -7);
   glTexCoord2f(1, 1);
-  glVertex3f(-12,  7,  50);
+  glVertex3f(-state.roomWidth,  state.roomHeight,  100);
   glTexCoord2f(0, 1);
-  glVertex3f(-12, -5,  50);
+  glVertex3f(-state.roomWidth, -state.roomHeight,  100);
 
   // right
   glTexCoord2f(0, 0);
-  glVertex3f( 12, -5, -7);
+  glVertex3f( state.roomWidth, -state.roomHeight, -7);
   glTexCoord2f(1, 0);
-  glVertex3f( 12,  7, -7);
+  glVertex3f( state.roomWidth,  state.roomHeight, -7);
   glTexCoord2f(1, 1);
-  glVertex3f( 12,  7,  50);
+  glVertex3f( state.roomWidth,  state.roomHeight,  100);
   glTexCoord2f(0, 1);
-  glVertex3f( 12, -5,  50);
+  glVertex3f( state.roomWidth, -state.roomHeight,  100);
   
   // far end
   glTexCoord2f(0, 0);
-  glVertex3f(-12, -5, -7);
+  glVertex3f(-state.roomWidth, -state.roomHeight, -7);
   glTexCoord2f(1, 0);
-  glVertex3f( 12, -5, -7);
+  glVertex3f( state.roomWidth, -state.roomHeight, -7);
   glTexCoord2f(1, 1);
-  glVertex3f( 12,  7, -7);
+  glVertex3f( state.roomWidth,  state.roomHeight, -7);
   glTexCoord2f(0, 1);
-  glVertex3f(-12,  7, -7);
+  glVertex3f(-state.roomWidth,  state.roomHeight, -7);
 
   // behind
   glTexCoord2f(0, 0);
-  glVertex3f(-12, -5, 50);
+  glVertex3f(-state.roomWidth, -state.roomHeight, 100);
   glTexCoord2f(1, 0); 
-  glVertex3f( 12, -5, 50);
+  glVertex3f( state.roomWidth, -state.roomHeight, 100);
   glTexCoord2f(1, 1);
-  glVertex3f( 12,  7, 50);
+  glVertex3f( state.roomWidth,  state.roomHeight, 100);
   glTexCoord2f(0, 1);
-  glVertex3f(-12,  7, 50);
+  glVertex3f(-state.roomWidth,  state.roomHeight, 100);
 
 
   glEnd();
@@ -156,7 +161,7 @@ void render(State& state) {
 
   // Draw walls
   glColor3f(1, 1, 1);
-  drawWalls();
+  drawWalls(state);
 
   for (unsigned ii = 0; ii < state.targets.size(); ++ii) {
     Target* t = state.targets[ii];

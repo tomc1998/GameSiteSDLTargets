@@ -6,6 +6,8 @@
 
 State::State() {
   player = 0;
+  roomWidth = 24;
+  roomHeight = 12;
 }
 
 void State::update() {
@@ -13,7 +15,12 @@ void State::update() {
   player->update(this);
 
   for (unsigned ii = 0; ii < targets.size(); ++ii) {
-    player->update(this);
+    targets[ii]->update(this);
+    if (targets[ii]->fadingOut && targets[ii]->rad < 0) {
+      delete targets[ii];
+      targets.erase(targets.begin() + ii);
+      -- ii;
+    }
   }
 
   // Spawn stuff!

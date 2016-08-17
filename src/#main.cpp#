@@ -13,9 +13,9 @@
 //#include FT_FREETYPE_H
 
 void initState(State& state) {
-  state.player = new Player(0, 0, 90);
-  state.SCREEN_WIDTH = 1366;
-  state.SCREEN_HEIGHT = 768;
+  state.player = new Player(0, 0, 15);
+  state.SCREEN_WIDTH = 800;
+  state.SCREEN_HEIGHT = 600;
   state.endflag = 0;
   state.targets.push_back(new Target(1, 0, 0, 1));
 }
@@ -30,7 +30,8 @@ int main() {
     handleInput(state);
     state.update();
     render(state);
-    SDL_GL_SwapWindow(state.window);
+    //SDL_GL_SwapWindow(state.window);
+    SD        SDL_RenderClear(ren);L_RenderPresent(state.renderer);
   }
 
   destroyRenderer(state);

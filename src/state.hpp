@@ -15,6 +15,7 @@ public:
   ~State();
   void update();
 
+  float roomWidth, roomHeight;
   SDL_Window* window;
   SDL_GLContext glContext;
   int endflag;

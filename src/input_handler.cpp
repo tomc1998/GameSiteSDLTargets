@@ -16,7 +16,7 @@ int D_DOWN = 0;
 int Q_DOWN = 0;
 int E_DOWN = 0;
 
-float xSens = 0.02f, ySens = 0.02f;
+float xSens = 0.01f, ySens = 0.01f;
 
 void handleInput(State& state) {
   SDL_Event e;
