@@ -43,9 +43,9 @@ include_directories(${PROJECT_ROOT_DIR}/include)
 
 if (CMAKE_COMPILER_IS_GNUCXX)
   link_directories(/usr/local/lib
-                  ~/dev/libs/freetype/build
+                  #~/dev/libs/freetype/build
                    /usr/lib/x86_64-linux-gnu)
-	target_link_libraries(SDLTest SDL2 SDL2_mixer SDL2_image png z m dl pthread rt GL freetype)
+	target_link_libraries(SDLTest SDL2 SDL2_mixer SDL2_image png z m dl pthread rt GL)
 	set (CMAKE_CXX_FLAGS "-std=c++11 -Wall -g")
 endif (CMAKE_COMPILER_IS_GNUCXX)
 

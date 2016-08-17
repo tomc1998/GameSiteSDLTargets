@@ -35,6 +35,7 @@ void drawTarget(float x, float y, float z, float rad, unsigned iter) {
 }
 
 static GLuint texCrosshair = 0;
+static GLuint texShadowCentre = 0;
 void initRenderer(State& state) {
   state.window = SDL_CreateWindow("SDL OpenGL Test",
                             0, 0,
@@ -65,8 +66,76 @@ void initRenderer(State& state) {
   glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
   texCrosshair = loadTex("res/crosshair.png");
+  texShadowCentre = loadTex("res/shadow_centre.png");
 }
 
+void drawWalls() {
+  glBindTexture(GL_TEXTURE_2D, texShadowCentre);
+  glBegin(GL_QUADS);
+  // floor
+  glTexCoord2f(0, 0);
+  glVertex3f(-12, 7, -7);
+  glTexCoord2f(1, 0);
+  glVertex3f( 12, 7, -7);
+  glTexCoord2f(1, 1);
+  glVertex3f( 12, 7,  50);
+  glTexCoord2f(0, 1);
+  glVertex3f(-12, 7,  50);
+
+  // roof
+  glTexCoord2f(0, 0);
+  glVertex3f(-12, -5, -7);
+  glTexCoord2f(1, 0);
+  glVertex3f( 12, -5, -7);
+  glTexCoord2f(1, 1);
+  glVertex3f( 12, -5,  50);
+  glTexCoord2f(0, 1);
+  glVertex3f(-12, -5,  50);
+
+  // left
+  glTexCoord2f(0, 0);
+  glVertex3f(-12, -5, -7);
+  glTexCoord2f(1, 0);
+  glVertex3f(-12,  7, -7);
+  glTexCoord2f(1, 1);
+  glVertex3f(-12,  7,  50);
+  glTexCoord2f(0, 1);
+  glVertex3f(-12, -5,  50);
+
+  // right
+  glTexCoord2f(0, 0);
+  glVertex3f( 12, -5, -7);
+  glTexCoord2f(1, 0);
+  glVertex3f( 12,  7, -7);
+  glTexCoord2f(1, 1);
+  glVertex3f( 12,  7,  50);
+  glTexCoord2f(0, 1);
+  glVertex3f( 12, -5,  50);
+  
+  // far end
+  glTexCoord2f(0, 0);
+  glVertex3f(-12, -5, -7);
+  glTexCoord2f(1, 0);
+  glVertex3f( 12, -5, -7);
+  glTexCoord2f(1, 1);
+  glVertex3f( 12,  7, -7);
+  glTexCoord2f(0, 1);
+  glVertex3f(-12,  7, -7);
+
+  // behind
+  glTexCoord2f(0, 0);
+  glVertex3f(-12, -5, 50);
+  glTexCoord2f(1, 0); 
+  glVertex3f( 12, -5, 50);
+  glTexCoord2f(1, 1);
+  glVertex3f( 12,  7, 50);
+  glTexCoord2f(0, 1);
+  glVertex3f(-12,  7, 50);
+
+
+  glEnd();
+  glBindTexture(GL_TEXTURE_2D, 0);
+}
 
 void destroyRenderer(State& state) {
   SDL_DestroyWindow(state.window);
@@ -84,6 +153,10 @@ void render(State& state) {
   glRotatef(-state.player->rotY, 1, 0, 0);
   glRotatef(state.player->rotX, 0, 1, 0);
   glTranslatef(-state.player->pos.x, -state.player->pos.y, -state.player->pos.z);
+
+  // Draw walls
+  glColor3f(1, 1, 1);
+  drawWalls();
 
   for (unsigned ii = 0; ii < state.targets.size(); ++ii) {
     Target* t = state.targets[ii];
