@@ -4,6 +4,7 @@
 #include "state.hpp"
 #include "ray.hpp"
 #include "collision.hpp"
+#include "target.hpp"
 #include <iostream>
 #include <math.h>
 #include <vector>
@@ -74,11 +75,17 @@ void handleInput(State& state) {
                       sin(M_PI/180.f*p->rotY),
                       -cos(-M_PI/180.f*p->rotX));
       std::vector<Vector3f*> intersections = checkRayToTargets(r, state.targets);
+      std::vector<unsigned> targetsToRemove;
       for (unsigned ii = 0; ii < intersections.size(); ++ii) {
         Vector3f* v = intersections[ii];
         if (v == NULL) { continue; }
-
+        targetsToRemove.push_back(ii);
         delete v;
+      }
+      for (unsigned ii = 0; ii < targetsToRemove.size(); ++ii) {
+        unsigned index = targetsToRemove[ii];
+        delete state.targets[index];
+        state.targets.erase(state.targets.begin() + index);
       }
 
       #ifdef DRAW_RAYS
