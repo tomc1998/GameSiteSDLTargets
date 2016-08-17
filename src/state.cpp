@@ -9,11 +9,15 @@ State::State() {
 }
 
 void State::update() {
+  // Update everything we have...
   player->update(this);
 
   for (unsigned ii = 0; ii < targets.size(); ++ii) {
     player->update(this);
   }
+
+  // Spawn stuff!
+  spawner.update(this);
 }
 
 State::~State() {

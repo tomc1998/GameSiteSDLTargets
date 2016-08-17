@@ -3,6 +3,7 @@
 #include <SDL/SDL.h>
 #include <vector>
 #include "vector.hpp"
+#include "spawner.hpp"
 
 class Target;
 class Player;
@@ -22,6 +23,8 @@ public:
   std::vector<Target*> targets;
   std::vector<int> targetsAlive;
   std::vector<Ray*> rays;
+
+  Spawner spawner; // Spawns targets
 };
 
 #endif

@@ -84,8 +84,8 @@ void handleInput(State& state) {
       }
       for (unsigned ii = 0; ii < targetsToRemove.size(); ++ii) {
         unsigned index = targetsToRemove[ii];
-        delete state.targets[index];
-        state.targets.erase(state.targets.begin() + index);
+        delete state.targets[index - ii];
+        state.targets.erase(state.targets.begin() + index - ii);
       }
 
       #ifdef DRAW_RAYS

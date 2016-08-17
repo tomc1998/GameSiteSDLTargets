@@ -14,6 +14,8 @@ set(SDLTEST_SRCS
                  ${PROJECT_SOURCE_DIR}/ray.cpp
                  ${PROJECT_SOURCE_DIR}/target.cpp
                  ${PROJECT_SOURCE_DIR}/collision.cpp
+                 ${PROJECT_SOURCE_DIR}/spawner.cpp
+                 ${PROJECT_SOURCE_DIR}/texture_manager.cpp
 
 # Precompiled headers
                  ${PROJECT_SOURCE_DIR}/player.hpp
@@ -24,6 +26,8 @@ set(SDLTEST_SRCS
                  ${PROJECT_SOURCE_DIR}/ray.hpp
                  ${PROJECT_SOURCE_DIR}/target.hpp
                  ${PROJECT_SOURCE_DIR}/collision.hpp
+                 ${PROJECT_SOURCE_DIR}/spawner.hpp
+                 ${PROJECT_SOURCE_DIR}/texture_manager.hpp
 )
 
 add_executable(SDLTest ${SDLTEST_SRCS})
@@ -38,8 +42,10 @@ endif (MSVC)
 include_directories(${PROJECT_ROOT_DIR}/include)
 
 if (CMAKE_COMPILER_IS_GNUCXX)
-  link_directories(/usr/local/lib)
-	target_link_libraries(SDLTest SDL2 m dl pthread rt GL)
+  link_directories(/usr/local/lib
+                  ~/dev/libs/freetype/build
+                   /usr/lib/x86_64-linux-gnu)
+	target_link_libraries(SDLTest SDL2 SDL2_mixer SDL2_image png z m dl pthread rt GL freetype)
 	set (CMAKE_CXX_FLAGS "-std=c++11 -Wall -g")
 endif (CMAKE_COMPILER_IS_GNUCXX)
 

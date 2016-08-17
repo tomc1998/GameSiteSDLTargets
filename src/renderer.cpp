@@ -1,5 +1,5 @@
 #include <iostream>
-#include <SDL/SDL.h>
+#include <SDL2/SDL.h>
 #include <GL/gl.h>
 #include <math.h>
 #include "renderer.hpp"
@@ -7,6 +7,7 @@
 #include "state.hpp"
 #include "ray.hpp"
 #include "target.hpp"
+#include "texture_manager.hpp"
 
 void drawRay(Ray* ray) {
   if (ray->hit) {
@@ -26,13 +27,14 @@ void drawTarget(float x, float y, float z, float rad, unsigned iter) {
   glBegin(GL_TRIANGLE_FAN);
   glVertex3f(x, y, z);
   glColor4f(0.8f, 0, 0, 1);
-  for (unsigned ii; ii <= iter; ++ii) {
+  for (unsigned ii = 0; ii <= iter; ++ii) {
     float angle = 2.f*M_PI*(float)ii/(float)iter;
     glVertex3f(x + rad*cos(angle), y + rad*sin(angle), z);
   }
   glEnd();
 }
 
+static GLuint texCrosshair = 0;
 void initRenderer(State& state) {
   state.window = SDL_CreateWindow("SDL OpenGL Test",
                             0, 0,
@@ -57,7 +59,14 @@ void initRenderer(State& state) {
 
   glEnable(GL_DEPTH_TEST);
   glDepthFunc(GL_LEQUAL);
+
+  glEnable(GL_TEXTURE_2D);
+  glEnable(GL_BLEND);
+  glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
+  texCrosshair = loadTex("res/crosshair.png");
 }
+
 
 void destroyRenderer(State& state) {
   SDL_DestroyWindow(state.window);
@@ -98,17 +107,20 @@ void render(State& state) {
   glLoadIdentity();
 
   // Crosshair
-  glBegin(GL_LINES);
-  glColor3f(0, 1, 0);
-  glVertex3f(-0.075f, 0, -5);
-  glVertex3f(-0.04f, 0, -5);
-  glVertex3f(0.07f, 0, -5);
-  glVertex3f(0.03f, 0, -5);
-  glVertex3f(0, -0.075f, -5);
-  glVertex3f(0, -0.04f, -5);
-  glVertex3f(0, 0.07f, -5);
-  glVertex3f(0, 0.03f, -5);
+  glBindTexture(GL_TEXTURE_2D, texCrosshair);
+  glBegin(GL_QUADS);
+  glColor4f(1, 1, 1, 0.8f);
+  glTexCoord2f(0, 0);
+  glVertex3f(-0.02f, -0.02f, -2);
+  glTexCoord2f(1, 0);
+  glVertex3f( 0.02f, -0.02f, -2);
+  glTexCoord2f(1, 1);
+  glVertex3f( 0.02f,  0.02f, -2);
+  glTexCoord2f(0, 1);
+  glVertex3f(-0.02f,  0.02f, -2);
+
   glEnd();
+  glBindTexture(GL_TEXTURE_2D, 0);
 
   glPopMatrix();
 }
