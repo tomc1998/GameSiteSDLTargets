@@ -1,5 +1,3 @@
-#include <SDL/SDL.h>
-#include <SDL/SDL_image.h>
 #include <iostream>
 #include <stdlib.h>
 #include "renderer.hpp"
@@ -14,8 +12,8 @@
 
 void initState(State& state) {
   state.player = new Player(0, 0, 90);
-  state.SCREEN_WIDTH = 1366;
-  state.SCREEN_HEIGHT = 768;
+  state.SCREEN_WIDTH = 800;
+  state.SCREEN_HEIGHT = 600;
   state.endflag = 0;
   state.targets.push_back(new Target(1, 0, 0, 1));
 }
@@ -24,13 +22,11 @@ int main() {
   State state;
   initState(state);
   initRenderer(state);
-  IMG_Init(IMG_INIT_PNG);
 
   while (!state.endflag) {
     handleInput(state);
     state.update();
     render(state);
-    SDL_GL_SwapWindow(state.window);
   }
 
   destroyRenderer(state);

@@ -7,7 +7,7 @@
 #include "time.h"
 
 Spawner::Spawner() {
-  millisBetweenTargets = 100;
+  millisBetweenTargets = 1200;
   prevMillis = 0;
   targetCounter = 0;
   srand(time(NULL));

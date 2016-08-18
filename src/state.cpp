@@ -8,6 +8,7 @@ State::State() {
   player = 0;
   roomWidth = 24;
   roomHeight = 12;
+  currScore = 0;
 }
 
 void State::update() {

@@ -45,7 +45,7 @@ if (CMAKE_COMPILER_IS_GNUCXX)
   link_directories(/usr/local/lib
                   #~/dev/libs/freetype/build
                    /usr/lib/x86_64-linux-gnu)
-	target_link_libraries(SDLTest SDL2 SDL2_mixer SDL2_image png z m dl pthread rt GL)
+	target_link_libraries(SDLTest SDL2 SDL2_mixer SDL2_image SDL2_ttf png z m dl pthread rt GL)
 	set (CMAKE_CXX_FLAGS "-std=c++11 -Wall -g")
 endif (CMAKE_COMPILER_IS_GNUCXX)
 

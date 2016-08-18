@@ -24,6 +24,7 @@ public:
   std::vector<Target*> targets;
   std::vector<int> targetsAlive;
   std::vector<Ray*> rays;
+  int currScore;
 
   Spawner spawner; // Spawns targets
 };

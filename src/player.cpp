@@ -6,7 +6,7 @@
 
 
 void Player::update(State* state) {
-  static const float speed = 0.05f;
+  static const float speed = 0.2f;
   if (A_DOWN) {
     pos.x -= speed*cos(M_PI*rotX/180.f);
     pos.z -= speed*sin(M_PI*rotX/180.f);
