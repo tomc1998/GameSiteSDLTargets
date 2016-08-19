@@ -21,14 +21,14 @@ int D_DOWN = 0;
 int Q_DOWN = 0;
 int E_DOWN = 0;
 
-float xSens = 0.03f, ySens = 0.03f;
+float xSens = 1.3f, ySens = 1.3f;
 
-void handleInput(State& state) {
+void handleInput(State& state, float delta) {
   SDL_Event e;
   while (SDL_PollEvent(&e)) {
     if (e.type == SDL_MOUSEMOTION) {
-      state.player->rotX += e.motion.xrel*xSens;
-      state.player->rotY += e.motion.yrel*ySens;
+      state.player->rotX += delta*e.motion.xrel*xSens;
+      state.player->rotY += delta*e.motion.yrel*ySens;
     }
     else if (e.type == SDL_KEYDOWN) {
       if (e.key.keysym.sym == SDLK_ESCAPE) {

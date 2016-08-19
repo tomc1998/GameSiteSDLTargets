@@ -5,7 +5,7 @@ class State;
 class Spawner {
 public:
   Spawner();
-  void update(State* state);
+  void update(State* state, float delta);
   int millisBetweenTargets; // Millis between target spawns
   float targetFadeSpeed;
 private:

@@ -7,7 +7,7 @@ class Player {
 public:
   Player();
   Player(float _x, float _y, float _z);
-  void update(State* state);
+  void update(State* state, float delta);
   Vector3f pos;
   Vector3f vel;
   Vector3f acc;

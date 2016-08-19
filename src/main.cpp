@@ -33,12 +33,18 @@ int main() {
 
   Mix_PlayMusic(soundtrack, -1);
 
+  unsigned int currTime = SDL_GetTicks();
+  unsigned int prevTime = currTime; 
+  float delta = 0;
   while (!state.endflag) {
-    handleInput(state);
-    state.update();
+    prevTime = currTime;
+    currTime = SDL_GetTicks();
+    delta = (float)(currTime - prevTime)/1000.f;
+    handleInput(state, delta);
+    state.update(delta);
     render(state);
-    state.spawner.millisBetweenTargets = 1200 - std::min(1000, ((int)SDL_GetTicks())/150);
-    state.spawner.targetFadeSpeed = 0.01f + (float)SDL_GetTicks()/5000000.f;
+    state.spawner.millisBetweenTargets = 1200 - ((int)SDL_GetTicks())/120;
+    state.spawner.targetFadeSpeed = 1 + (float)SDL_GetTicks()/50000.f;
   }
 
   destroyRenderer(state);

@@ -12,6 +12,6 @@ extern int E_DOWN;
 
 extern float xSens, ySens;
 
-void handleInput(State& state);
+void handleInput(State& state, float delta);
 
 #endif

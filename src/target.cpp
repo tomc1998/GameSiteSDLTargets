@@ -7,15 +7,15 @@ Plane* Target::getPlane() {
   return new Plane(pos.x, pos.y, pos.z, nor.x, nor.y, nor.z);
 }
 
-void Target::update(State* state) {
+void Target::update(State* state, float delta) {
   if (!fadingOut) {
-    rad += fadeSpeed;
+    rad += delta*fadeSpeed;
     if (rad >= maxRad) {
       fadingOut = 1;
     }
   }
   else {
-    rad -= fadeSpeed;
+    rad -= delta*fadeSpeed;
   }
 }
 
@@ -30,7 +30,7 @@ void Target::init(float _x, float _y, float _z,
   rad = _rad;
   maxRad = 3;
   fadingOut = 0;
-  fadeSpeed = 0.01f;
+  fadeSpeed = 1;
 }
 
 Target::Target() {

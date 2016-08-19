@@ -22,13 +22,13 @@ State::State() {
   frontPos = 60;
 }
 
-void State::update() {
+void State::update(float delta) {
   // Update everything we have...
-  player->update(this);
+  player->update(this, delta);
 
   std::sort(targets.begin(), targets.end(), sortTargFunc);
   for (unsigned ii = 0; ii < targets.size(); ++ii) {
-    targets[ii]->update(this);
+    targets[ii]->update(this, delta);
     if (targets[ii]->fadingOut && targets[ii]->rad < 0) {
       delete targets[ii];
       targets.erase(targets.begin() + ii);
@@ -41,7 +41,7 @@ void State::update() {
   }
 
   // Spawn stuff!
-  spawner.update(this);
+  spawner.update(this, delta);
 }
 
 State::~State() {

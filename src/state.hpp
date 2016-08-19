@@ -13,7 +13,7 @@ class State {
 public:
   State();
   ~State();
-  void update();
+  void update(float delta);
 
   // SUPER Hacky, but positions of the area you can move in
   float backPos, frontPos, leftPos, rightPos;

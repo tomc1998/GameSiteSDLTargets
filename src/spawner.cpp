@@ -10,11 +10,11 @@ Spawner::Spawner() {
   millisBetweenTargets = 1000;
   prevMillis = 0;
   targetCounter = 0;
-  targetFadeSpeed = 0.01f;
+  targetFadeSpeed = 1;
   srand(time(NULL));
 }
 
-void Spawner::update(State* state) {
+void Spawner::update(State* state, float delta) {
   int currMillis = SDL_GetTicks();
   targetCounter += currMillis - prevMillis;
   prevMillis = currMillis;

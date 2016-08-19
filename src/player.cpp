@@ -5,30 +5,30 @@
 #include <math.h>
 
 
-void Player::update(State* state) {
-  static const float speed = 0.3f;
+void Player::update(State* state, float delta) {
+  static const float speed = 15;
   if (A_DOWN) {
-    pos.x -= speed*cos(M_PI*rotX/180.f);
-    pos.z -= speed*sin(M_PI*rotX/180.f);
+    pos.x -= delta*speed*cos(M_PI*rotX/180.f);
+    pos.z -= delta*speed*sin(M_PI*rotX/180.f);
   }
   if (D_DOWN) {
-    pos.x += speed*cos(M_PI*rotX/180.f);
-    pos.z += speed*sin(M_PI*rotX/180.f);
+    pos.x += delta*speed*cos(M_PI*rotX/180.f);
+    pos.z += delta*speed*sin(M_PI*rotX/180.f);
   }
   if (W_DOWN) {
-    pos.x += speed*sin(M_PI*rotX/180.f);
-    pos.z -= speed*cos(M_PI*rotX/180.f);
+    pos.x += delta*speed*sin(M_PI*rotX/180.f);
+    pos.z -= delta*speed*cos(M_PI*rotX/180.f);
   }
   if (S_DOWN) {
-    pos.x -= speed*sin(M_PI*rotX/180.f);
-    pos.z += speed*cos(M_PI*rotX/180.f);
+    pos.x -= delta*speed*sin(M_PI*rotX/180.f);
+    pos.z += delta*speed*cos(M_PI*rotX/180.f);
   }
-  if (Q_DOWN) {
-    pos.y -= speed;
-  }
-  if (E_DOWN) {
-    pos.y += speed;
-  }
+  //if (Q_DOWN) {
+  //  pos.y -= delta*speed;
+  //}
+  //if (E_DOWN) {
+  //  pos.y += delta*speed;
+  //}
   if (pos.x+rad > state->rightPos) {
     pos.x = state->rightPos-rad;
   }
