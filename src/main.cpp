@@ -31,11 +31,14 @@ int main() {
   initRenderer(state);
   initSounds();
 
+  Mix_PlayMusic(soundtrack, -1);
+
   while (!state.endflag) {
     handleInput(state);
     state.update();
     render(state);
-    state.spawner.millisBetweenTargets = 1200 - std::min(1000, ((int)SDL_GetTicks())/100);
+    state.spawner.millisBetweenTargets = 1200 - std::min(1000, ((int)SDL_GetTicks())/150);
+    state.spawner.targetFadeSpeed = 0.01f + (float)SDL_GetTicks()/5000000.f;
   }
 
   destroyRenderer(state);

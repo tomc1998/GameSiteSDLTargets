@@ -10,6 +10,7 @@ Spawner::Spawner() {
   millisBetweenTargets = 1000;
   prevMillis = 0;
   targetCounter = 0;
+  targetFadeSpeed = 0.01f;
   srand(time(NULL));
 }
 
@@ -23,6 +24,7 @@ void Spawner::update(State* state) {
     float y = ((float)rand() / (float)RAND_MAX)*state->roomHeight*1.5f - state->roomHeight*0.75f;
     float z = ((float)rand() / (float)RAND_MAX)*50 - 3;
     Target* t = new Target(x, y, z, 0);
+    t->fadeSpeed = targetFadeSpeed;
     state->targets.push_back(t);
   }
 }
