@@ -6,8 +6,8 @@ class Spawner {
 public:
   Spawner();
   void update(State* state);
-private:
   int millisBetweenTargets; // Millis between target spawns
+private:
   int targetCounter;        // Cumulative millis from last target spawn
   int prevMillis;
 };

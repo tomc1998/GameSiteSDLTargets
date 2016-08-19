@@ -28,6 +28,10 @@ void State::update() {
       delete targets[ii];
       targets.erase(targets.begin() + ii);
       -- ii;
+      -- currHealth;
+      if (currHealth == 0) {
+        exit(0);
+      }
     }
   }
 

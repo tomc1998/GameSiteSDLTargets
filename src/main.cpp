@@ -2,6 +2,7 @@
 #ifdef WIN32
 #include <windows.h>
 #endif
+#include <algorithm>
 #include <SDL/SDL_mixer.h>
 #include <stdlib.h>
 #include "renderer.hpp"
@@ -34,6 +35,7 @@ int main() {
     handleInput(state);
     state.update();
     render(state);
+    state.spawner.millisBetweenTargets = 1200 - std::min(1000, ((int)SDL_GetTicks())/100);
   }
 
   destroyRenderer(state);
