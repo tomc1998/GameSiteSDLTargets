@@ -10,6 +10,7 @@
 #include "target.hpp"
 #include "sound_manager.hpp"
 #include <SDL/SDL_mixer.h>
+#include <SDL/SDL_timer.h>
 #include <iostream>
 #include <math.h>
 #include <vector>
@@ -22,6 +23,15 @@ int Q_DOWN = 0;
 int E_DOWN = 0;
 
 float xSens = 1.3f, ySens = 1.3f;
+
+// Callback to SDL_SetTimer
+static Uint32 startSpawning(Uint32 interval, void* param) {
+  State* state = (State*) param;
+  state->atTitleScreen = 0;
+  state->tickStart = SDL_GetTicks();
+  state->spawner.start();
+  return 0;
+}
 
 void handleInput(State& state, float delta) {
   SDL_Event e;
@@ -75,6 +85,14 @@ void handleInput(State& state, float delta) {
       }
     }
     else if (e.type == SDL_MOUSEBUTTONDOWN) {
+      if (state.atTitleScreen) {
+        Mix_RewindMusic();
+        Mix_PlayMusic(soundtrack, -1);
+        state.currScore = 0;
+        state.currHealth = 3;
+        SDL_AddTimer(2000, startSpawning, &state);
+      }
+
       Player* p = state.player;
       Ray* r = new Ray(p->pos.x, p->pos.y, p->pos.z,
                       sin(M_PI/180.f*p->rotX),
@@ -86,6 +104,9 @@ void handleInput(State& state, float delta) {
         if (intersections[ii] != NULL) {
           Mix_PlayChannel(-1, pop, 0);
           ++ state.currScore;
+          if (state.currHiScore < state.currScore) {
+            state.currHiScore = state.currScore;
+          }
           break;
         }
       }

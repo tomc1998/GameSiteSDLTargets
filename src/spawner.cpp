@@ -12,10 +12,23 @@ Spawner::Spawner() {
   targetCounter = 0;
   targetFadeSpeed = 1;
   srand(time(NULL));
+  running = 0;
+}
+
+void Spawner::start() {
+  running = 1;
+  prevMillis = SDL_GetTicks();
+}
+
+void Spawner::stop() {
+  running = 0;
 }
 
 void Spawner::update(State* state, float delta) {
   int currMillis = SDL_GetTicks();
+  if (!running) {
+    return;
+  }
   targetCounter += currMillis - prevMillis;
   prevMillis = currMillis;
   if (targetCounter >= millisBetweenTargets) {

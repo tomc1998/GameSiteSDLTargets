@@ -22,7 +22,6 @@ void initState(State& state) {
   state.SCREEN_WIDTH = 1366;
   state.SCREEN_HEIGHT = 768;
   state.endflag = 0;
-  state.targets.push_back(new Target(1, 0, 0, 1));
 }
 
 int main() {
@@ -30,8 +29,7 @@ int main() {
   initState(state);
   initRenderer(state);
   initSounds();
-
-  Mix_PlayMusic(soundtrack, -1);
+  SDL_Init(SDL_INIT_TIMER);
 
   unsigned int currTime = SDL_GetTicks();
   unsigned int prevTime = currTime; 
@@ -43,8 +41,11 @@ int main() {
     handleInput(state, delta);
     state.update(delta);
     render(state);
-    state.spawner.millisBetweenTargets = 1200 - ((int)SDL_GetTicks())/120;
-    state.spawner.targetFadeSpeed = 1 + (float)SDL_GetTicks()/50000.f;
+    if (!state.atTitleScreen) {
+      unsigned int ticksElapsed = SDL_GetTicks() - state.tickStart;
+      state.spawner.millisBetweenTargets = 1200 - (ticksElapsed)/120;
+      state.spawner.targetFadeSpeed = 1 + (float)ticksElapsed/50000.f;
+    }
   }
 
   destroyRenderer(state);

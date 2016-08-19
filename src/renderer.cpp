@@ -291,6 +291,34 @@ void render(State& state) {
   glTexCoord2f(0, 1); glVertex3f(-0.4f,  1.0f, -2);
   glEnd();
 
+  char hiscore[40];
+  sprintf(hiscore, "Hiscore: %d", state.currHiScore);
+  fontSurf = TTF_RenderText_Solid(scoreFont, hiscore, scoreColor);
+  glFontSurf = SDL_ConvertSurface(fontSurf, &pixelFormat, 0);
+  glBindTexture(GL_TEXTURE_2D, fontTex);
+  glTexImage2D(GL_TEXTURE_2D,
+               0,
+               GL_RGBA,
+               glFontSurf->w,
+               glFontSurf->h,
+               0,
+               GL_RGBA,
+               GL_UNSIGNED_BYTE,
+               glFontSurf->pixels);
+  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+
+  SDL_FreeSurface(fontSurf);
+  SDL_FreeSurface(glFontSurf);
+
+  glBegin(GL_QUADS);
+  glColor4f(1, 0.9f, 1, 0.7f);
+  glTexCoord2f(0, 0); glVertex3f(0.9f,  0.8f, -2);
+  glTexCoord2f(1, 0); glVertex3f(1.7f,  0.8f, -2);
+  glTexCoord2f(1, 1); glVertex3f(1.7f,  1.0f, -2);
+  glTexCoord2f(0, 1); glVertex3f(0.9f,  1.0f, -2);
+  glEnd();
+
   glBindTexture(GL_TEXTURE_2D, texHP);
 
   glColor4f(1, 1, 1, 1);

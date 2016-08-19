@@ -28,11 +28,14 @@ public:
   std::vector<int> targetsAlive;
   std::vector<Ray*> rays;
   int currScore;
+  int currHiScore;
   unsigned currHealth;
 
   Spawner spawner; // Spawns targets
 
-  
+  unsigned int tickStart; // Tick at which game started
+
+  int atTitleScreen;
 };
 
 #endif

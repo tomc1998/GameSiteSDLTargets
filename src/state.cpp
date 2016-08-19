@@ -4,6 +4,9 @@
 #include "target.hpp"
 #include "player.hpp"
 #include "ray.hpp"
+#include <SDL/SDL_mixer.h>
+#include "sound_manager.hpp"
+
 
 bool sortTargFunc(Target* t1, Target* t2) {
   return t1->pos.z < t2->pos.z;
@@ -20,6 +23,18 @@ State::State() {
   leftPos = -roomWidth;
   rightPos = roomWidth;
   frontPos = 60;
+  atTitleScreen = 1;
+
+  tickStart = 0;
+}
+
+void restart(State* state) {
+  state->atTitleScreen = 1;
+  //Mix_PauseMusic();
+  Mix_RewindMusic();
+  state->targets.clear();
+  std::vector<Target*>().swap(state->targets);   // clear x reallocating 
+  state->spawner.stop();
 }
 
 void State::update(float delta) {
@@ -28,6 +43,9 @@ void State::update(float delta) {
 
   std::sort(targets.begin(), targets.end(), sortTargFunc);
   for (unsigned ii = 0; ii < targets.size(); ++ii) {
+    if (currHealth == 0) {
+      break;
+    }
     targets[ii]->update(this, delta);
     if (targets[ii]->fadingOut && targets[ii]->rad < 0) {
       delete targets[ii];
@@ -35,7 +53,8 @@ void State::update(float delta) {
       -- ii;
       -- currHealth;
       if (currHealth == 0) {
-        exit(0);
+        restart(this);
+        break;
       }
     }
   }
