@@ -1,4 +1,7 @@
 #include <iostream>
+#ifdef WIN32
+#include <windows.h>
+#endif
 #include <SDL/SDL_mixer.h>
 #include <stdlib.h>
 #include "renderer.hpp"
@@ -9,6 +12,7 @@
 #include "ray.hpp"
 #include "texture_manager.hpp"
 #include "sound_manager.hpp"
+#undef main
 //#include <ft2build.h>
 //#include FT_FREETYPE_H
 

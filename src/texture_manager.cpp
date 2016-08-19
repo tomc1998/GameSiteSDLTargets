@@ -1,3 +1,6 @@
+#ifdef WIN32
+#include <windows.h>
+#endif
 #include "texture_manager.hpp"
 #include <GL/gl.h>
 #include <SDL/SDL_image.h>

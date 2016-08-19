@@ -1,3 +1,6 @@
+#ifdef WIN32
+#include <windows.h>
+#endif
 #include <SDL/SDL.h>
 #include "player.hpp"
 #include "input_handler.hpp"
@@ -18,7 +21,7 @@ int D_DOWN = 0;
 int Q_DOWN = 0;
 int E_DOWN = 0;
 
-float xSens = 0.01f, ySens = 0.01f;
+float xSens = 0.03f, ySens = 0.03f;
 
 void handleInput(State& state) {
   SDL_Event e;

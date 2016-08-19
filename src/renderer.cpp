@@ -1,5 +1,8 @@
 #include <iostream>
 #include <stdlib.h>
+#ifdef WIN32
+#include <windows.h>
+#endif
 #include <SDL/SDL.h>
 #include <SDL/SDL_ttf.h>
 #include <SDL/SDL_image.h>
@@ -85,8 +88,6 @@ void initRenderer(State& state) {
   glEnable(GL_BLEND);
   glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
   
-  glEnable(GL_MULTISAMPLE);  
-
   IMG_Init(IMG_INIT_PNG);
   texCrosshair    = loadTex("res/crosshair.png",     GL_NEAREST);
   texShadowCentre = loadTex("res/shadow_centre.png", GL_LINEAR);

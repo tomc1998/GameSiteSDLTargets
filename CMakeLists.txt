@@ -35,10 +35,18 @@ set(SDLTEST_SRCS
 add_executable(SDLTest ${SDLTEST_SRCS})
 
 if (MSVC)
-  target_link_libraries(SDLTest ${PROJECT_ROOT_DIR}/lib/SDL2.lib
-                                ${PROJECT_ROOT_DIR}/lib/SDL2main.lib)
+  target_link_libraries(SDLTest 
+                                
+								${PROJECT_ROOT_DIR}/lib/SDL2_image.lib
+								${PROJECT_ROOT_DIR}/lib/SDL2_mixer.lib
+								${PROJECT_ROOT_DIR}/lib/SDL2_ttf.lib
+								${PROJECT_ROOT_DIR}/lib/SDL2.lib
+								${PROJECT_ROOT_DIR}/lib/SDL2main.lib
+								)
   include_directories(${PROJECT_ROOT_DIR}/include)
-	set (CMAKE_CXX_FLAGS "/MD /EHsc")
+	set (CMAKE_CXX_FLAGS "/MD /EHsc /DWIN32")
+  target_link_libraries(SDLTest opengl32 gdi32 user32 kernel32 shell32)
+
 endif (MSVC)
 
 include_directories(${PROJECT_ROOT_DIR}/include)

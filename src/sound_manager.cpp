@@ -1,4 +1,7 @@
 #include "sound_manager.hpp"
+#ifdef WIN32
+#include <windows.h>
+#endif
 #include <SDL/SDL_mixer.h>
 #include <stdio.h>
 
