@@ -15,6 +15,9 @@ public:
   ~State();
   void update();
 
+  // SUPER Hacky, but positions of the area you can move in
+  float backPos, frontPos, leftPos, rightPos;
+  
   float roomWidth, roomHeight;
   SDL_Window* window;
   SDL_GLContext glContext;

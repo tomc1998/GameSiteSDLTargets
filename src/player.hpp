@@ -12,6 +12,7 @@ public:
   Vector3f vel;
   Vector3f acc;
   float rotX, rotY;
+  float rad;
 private:
   void init(float _x, float _y, float _z);
 };

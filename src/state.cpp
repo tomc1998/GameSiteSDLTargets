@@ -15,6 +15,11 @@ State::State() {
   roomHeight = 12;
   currScore = 0;
   currHealth = 3;
+
+  backPos = 100;
+  leftPos = -roomWidth;
+  rightPos = roomWidth;
+  frontPos = 60;
 }
 
 void State::update() {

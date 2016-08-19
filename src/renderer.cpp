@@ -162,6 +162,26 @@ void drawWalls(State& state) {
   glTexCoord2f(0, 1);
   glVertex3f(-state.roomWidth,  state.roomHeight, 100);
 
+  //glColor3f(0.4f, 0.2f, 0.2f);
+  // Draw barrier
+  glTexCoord2f(0, .5f);
+  glVertex3f(-state.roomWidth, state.roomHeight-5, 60);
+  glTexCoord2f(1, .5f); 
+  glVertex3f( state.roomWidth, state.roomHeight-5, 60);
+  glTexCoord2f(1, 0);
+  glVertex3f( state.roomWidth, state.roomHeight, 60);
+  glTexCoord2f(0, 0);
+  glVertex3f(-state.roomWidth, state.roomHeight, 60);
+
+  glTexCoord2f(0, .5f);
+  glVertex3f(-state.roomWidth, state.roomHeight-5, 60);
+  glTexCoord2f(1, .5f); 
+  glVertex3f( state.roomWidth, state.roomHeight-5, 60);
+  glTexCoord2f(1, 0);
+  glVertex3f( state.roomWidth, state.roomHeight-5, 55);
+  glTexCoord2f(0, 0);
+  glVertex3f(-state.roomWidth, state.roomHeight-5, 55);
+
 
   glEnd();
   glBindTexture(GL_TEXTURE_2D, 0);
