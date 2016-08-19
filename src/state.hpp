@@ -25,8 +25,11 @@ public:
   std::vector<int> targetsAlive;
   std::vector<Ray*> rays;
   int currScore;
+  unsigned currHealth;
 
   Spawner spawner; // Spawns targets
+
+  
 };
 
 #endif

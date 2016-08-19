@@ -5,6 +5,8 @@
 #include "ray.hpp"
 #include "collision.hpp"
 #include "target.hpp"
+#include "sound_manager.hpp"
+#include <SDL/SDL_mixer.h>
 #include <iostream>
 #include <math.h>
 #include <vector>
@@ -61,6 +63,7 @@ void handleInput(State& state) {
       else if (e.key.keysym.sym == SDLK_s) {
         S_DOWN = 0;
       }
+
       else if (e.key.keysym.sym == SDLK_q) {
         Q_DOWN = 0;
       }
@@ -76,6 +79,13 @@ void handleInput(State& state) {
                       -cos(-M_PI/180.f*p->rotX));
       std::vector<Vector3f*> intersections = checkRayToTargets(r, state.targets);
       std::vector<unsigned> targetsToRemove;
+      for (unsigned ii = 0; ii < intersections.size(); ++ii) {
+        if (intersections[ii] != NULL) {
+          Mix_PlayChannel(-1, pop, 0);
+          ++ state.currScore;
+          break;
+        }
+      }
       for (unsigned ii = 0; ii < intersections.size(); ++ii) {
         Vector3f* v = intersections[ii];
         if (v == NULL) { continue; }

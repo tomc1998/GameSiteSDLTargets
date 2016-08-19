@@ -15,9 +15,23 @@
 static GLuint texCrosshair = 0;
 static GLuint texShadowCentre = 0;
 static GLuint texTarget = 0;
+static GLuint texHP = 0;
 static GLuint fontTex = -1;
 static TTF_Font* scoreFont = 0;
 static SDL_Color scoreColor = {150, 150, 150};
+
+void drawHealth(unsigned numHP) {
+  glBegin(GL_QUADS);
+  glColor4f(1, 0, 0, 1);
+  for (unsigned ii = 0; ii < numHP; ++ii) {
+    glTexCoord2f(0, 0); glVertex3f(-1.73f + ii * 0.2f, 0.8f, -2);
+    glTexCoord2f(1, 0); glVertex3f(-1.73f + ii * 0.2f + 0.15f, 0.8f, -2);
+    glTexCoord2f(1, 1); glVertex3f(-1.73f + ii * 0.2f + 0.15f, 0.8f + 0.15f, -2);
+    glTexCoord2f(0, 1); glVertex3f(-1.73f + ii * 0.2f, 0.8f + 0.15f, -2);
+  }
+  glEnd();
+  glBindTexture(GL_TEXTURE_2D, 0);
+}
 
 void drawRay(Ray* ray) {
   if (ray->hit) {
@@ -33,17 +47,10 @@ void drawRay(Ray* ray) {
 }
 
 void drawTarget(float x, float y, float z, float rad, unsigned iter) {
-  glColor4f(1, 0, 0, 1);
-  glBindTexture(GL_TEXTURE_2D, 0);
-  glBegin(GL_QUADS);
-
-  glVertex3f(x - rad, y - rad, z);
-  glVertex3f(x + rad, y - rad, z);
-  glVertex3f(x + rad, y + rad, z);
-  glVertex3f(x - rad, y + rad, z);
-
-  glEnd();
-  glBindTexture(GL_TEXTURE_2D, 0);
+  glTexCoord2f(0, 0); glVertex3f(x - rad, y - rad, z);
+  glTexCoord2f(1, 0); glVertex3f(x + rad, y - rad, z);
+  glTexCoord2f(1, 1); glVertex3f(x + rad, y + rad, z);
+  glTexCoord2f(0, 1); glVertex3f(x - rad, y + rad, z);
 }
 
 void initRenderer(State& state) {
@@ -53,7 +60,7 @@ void initRenderer(State& state) {
   state.window = SDL_CreateWindow("SDL OpenGL Test",
                             0, 0,
                             state.SCREEN_WIDTH, state.SCREEN_HEIGHT,
-                            SDL_WINDOW_OPENGL | SDL_WINDOW_RESIZABLE);
+                            SDL_WINDOW_OPENGL | SDL_WINDOW_FULLSCREEN);
 
   // Capture cursor
   SDL_SetRelativeMouseMode(SDL_TRUE);
@@ -81,9 +88,10 @@ void initRenderer(State& state) {
   glEnable(GL_MULTISAMPLE);  
 
   IMG_Init(IMG_INIT_PNG);
-  texCrosshair = loadTex("res/crosshair.png");
-  texShadowCentre = loadTex("res/shadow_centre.png");
-  texTarget = loadTex("res/target.png");
+  texCrosshair    = loadTex("res/crosshair.png",     GL_NEAREST);
+  texShadowCentre = loadTex("res/shadow_centre.png", GL_LINEAR);
+  texTarget       = loadTex("res/target.png",        GL_LINEAR);
+  texHP           = loadTex("res/hp.png",            GL_NEAREST);
 
   TTF_Init();
   scoreFont = TTF_OpenFont("res/SourceSansPro-Black.otf", 512);
@@ -165,8 +173,7 @@ void destroyRenderer(State& state) {
 
 //#define DRAW_RAYS
 void render(State& state) {
-  state.currScore ++;
-  
+ 
   glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
   glViewport(0, 0, state.SCREEN_WIDTH, state.SCREEN_HEIGHT);
@@ -181,11 +188,14 @@ void render(State& state) {
   glColor3f(1, 1, 1);
   drawWalls(state);
 
+  glBindTexture(GL_TEXTURE_2D, texTarget);
+  glBegin(GL_QUADS);
   for (unsigned ii = 0; ii < state.targets.size(); ++ii) {
     Target* t = state.targets[ii];
-    glColor4f(0, 1, 0, 1);
+    glColor4f(0.5f + (t->pos.z+3)/80.f, 0, 0, 1);
     drawTarget(t->pos.x, t->pos.y, t->pos.z, t->rad, 100);
   }
+  glEnd();
 
   #ifdef DRAW_RAYS
   glBegin(GL_LINES);
@@ -259,7 +269,12 @@ void render(State& state) {
   glTexCoord2f(1, 1); glVertex3f( 0.4f,  1.0f, -2);
   glTexCoord2f(0, 1); glVertex3f(-0.4f,  1.0f, -2);
   glEnd();
-  glBindTexture(GL_TEXTURE_2D, 0); 
+
+  glBindTexture(GL_TEXTURE_2D, texHP);
+
+  glColor4f(1, 1, 1, 1);
+  drawHealth(state.currHealth);
+  glBindTexture(GL_TEXTURE_2D, 0);
   
   SDL_GL_SwapWindow(state.window);
 }

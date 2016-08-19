@@ -16,6 +16,7 @@ set(SDLTEST_SRCS
                  ${PROJECT_SOURCE_DIR}/collision.cpp
                  ${PROJECT_SOURCE_DIR}/spawner.cpp
                  ${PROJECT_SOURCE_DIR}/texture_manager.cpp
+                 ${PROJECT_SOURCE_DIR}/sound_manager.cpp
 
 # Precompiled headers
                  ${PROJECT_SOURCE_DIR}/player.hpp
@@ -28,6 +29,7 @@ set(SDLTEST_SRCS
                  ${PROJECT_SOURCE_DIR}/collision.hpp
                  ${PROJECT_SOURCE_DIR}/spawner.hpp
                  ${PROJECT_SOURCE_DIR}/texture_manager.hpp
+                 ${PROJECT_SOURCE_DIR}/sound_manager.hpp
 )
 
 add_executable(SDLTest ${SDLTEST_SRCS})
